@@ -51,10 +51,15 @@ public class BookService {
      * key was already in use.)
      */
     public Book addBook(Book book) {
-        /*if (book.getIsbn())
-            return bookDAO.insertBook(book);
-    */
-        return null;
+        /*so with this problem we have to use a for loop to go through each book inside the database
+         * and check each isbn if the book is not already in the database; if it is return null if not
+         * add book in the database*/
+        for (Book index : bookDAO.getAllBooks()) {
+            if (index.getIsbn() == book.getIsbn())
+                return null;
+        }
+
+        return bookDAO.insertBook(book);
     }
     /**
      * TODO: Use the bookDAO to retrieve a list of all books that have a bookCount above 0.

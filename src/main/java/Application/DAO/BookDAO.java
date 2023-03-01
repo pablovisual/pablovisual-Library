@@ -57,10 +57,15 @@ public class BookDAO {
         Connection connection = ConnectionUtil.getConnection();
         try {
             //Write SQL logic here
-            String sql = "change me";
+            //bc we are looking for a book by its isbn, we are using * here bc it wants to find all columns
+            //associated with the isbn
+            /*basically doing SELECT isbn, author_id, title, copies_available WHERE isbn = ?
+            * whatever is being sent into the parameter isbn*/
+            String sql = "SELECT * FROM book WHERE isbn = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             //write preparedStatement's setInt method here.
+            preparedStatement.setInt(1, isbn);
 
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
@@ -87,12 +92,14 @@ public class BookDAO {
         Connection connection = ConnectionUtil.getConnection();
         try {
             //Write SQL logic here
-            String sql = "INSERT INTO book (isbn, title) VALUES (?,?)" ;
+            String sql = "INSERT INTO book (isbn, author_id, title, copies_available) VALUES (?, ?, ?, ?)" ;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             //write preparedStatement's setString and setInt methods here.
             preparedStatement.setInt(1, book.getIsbn());
-            preparedStatement.setString(2, book.getTitle());
+            preparedStatement.setInt(2, book.getAuthor_id());
+            preparedStatement.setString(3, book.getTitle());
+            preparedStatement.setInt(4, book.getCopies_available());
 
             preparedStatement.executeUpdate();
             return book;
@@ -104,17 +111,21 @@ public class BookDAO {
     /**
      * TODO: retrieve all books from the Book table with a book_count over zero.
      * You only need to change the sql String and leverage PreparedStatement's setString and setInt methods.
-     * @returnall books with book count > 0.
+     * @return all books with book count > 0.
      */
     public List<Book> getBooksWithBookCountOverZero(){
         Connection connection = ConnectionUtil.getConnection();
         List<Book> books = new ArrayList<>();
         try {
             //Write SQL logic here
-            String sql = "SELECT * from book WHERE ";
+            //same thing here we are selecting all similar to getBookByIsbn function
+            String sql = "SELECT * from book WHERE copies_available > ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             //write preparedStatement's setInt method here.
+            //so the ? is going to be 0 since well we want to return all books
+            // that have more than 0 copies available
+            preparedStatement.setInt(1, 0);
 
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
