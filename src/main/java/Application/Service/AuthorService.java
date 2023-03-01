@@ -49,11 +49,18 @@ public class AuthorService {
      * @return The persisted author if the persistence is successful.
      */
     public Author addAuthor(Author author) {
-        for (Author index : authorDAO.getAllAuthors()) {
+        /*for (Author index : authorDAO.getAllAuthors()) {
             if(index.getName() == author.getName())
                 return null;
-        }
+        }*/
 
-        return authorDAO.insertAuthor(author);
+        //better solution
+        /*if (authorDAO.getAllAuthors() == author)
+            return null;
+
+        return authorDAO.insertAuthor(author);*/
+
+        //even better solution
+        return authorDAO.getAllAuthors() == author ? null : authorDAO.insertAuthor(author);
     }
 }
