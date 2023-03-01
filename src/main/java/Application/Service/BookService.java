@@ -60,11 +60,14 @@ public class BookService {
         }*/
 
         //better solution
-        Book lookUpBook = bookDAO.getBookByIsbn(book.getIsbn());
+        /*Book lookUpBook = bookDAO.getBookByIsbn(book.getIsbn());
         if (lookUpBook == book)
              return null;
 
-        return bookDAO.insertBook(book);
+        return bookDAO.insertBook(book);*/
+
+        //even better solution
+        return bookDAO.getBookByIsbn(book.getIsbn()) == book ? null : bookDAO.insertBook(book);
     }
     /**
      * TODO: Use the bookDAO to retrieve a list of all books that have a bookCount above 0.
