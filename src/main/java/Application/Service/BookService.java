@@ -53,11 +53,16 @@ public class BookService {
     public Book addBook(Book book) {
         /*so with this problem we have to use a for loop to go through each book inside the database
          * and check each isbn if the book is not already in the database; if it is return null if not
-         * add book in the database*/
+         * add book in the database
         for (Book index : bookDAO.getAllBooks()) {
             if (index.getIsbn() == book.getIsbn())
                 return null;
-        }
+        }*/
+
+        //better solution
+        Book lookUpBook = bookDAO.getBookByIsbn(book.getIsbn());
+        if (lookUpBook == book)
+             return null;
 
         return bookDAO.insertBook(book);
     }
